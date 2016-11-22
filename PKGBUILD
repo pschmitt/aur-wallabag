@@ -41,9 +41,11 @@ package() {
     ln -s /etc/webapps/${pkgname}/parameters.yml "${WALLABAG_CONF_DIR}"/
 
     _VAR_DIR="${pkgdir}/var/lib/${pkgname}/"
-    install -d "$_VAR_DIR"
-    mv "${pkgdir}/usr/share/webapps/${pkgname}/"{data,var} "$_VAR_DIR"
-    ln -s "/var/lib/${pkgname}/"{data,var} "${pkgdir}/usr/share/webapps/${pkgname}/"
+    install -d "$_VAR_DIR"{,var}
+    install -d "$_VAR_DIR/var/"{cache,logs,sessions}
+    mv "${pkgdir}/usr/share/webapps/${pkgname}/data" "$_VAR_DIR"
+    ln -s "/var/lib/${pkgname}/data" "${pkgdir}/usr/share/webapps/${pkgname}/"
+    ln -s "/var/lib/${pkgname}/var/"{cache,logs,sessions} "${pkgdir}/usr/share/webapps/${pkgname}/var/"
     chown -R http:http "$_VAR_DIR"
 
     chown -R http:http "${pkgdir}/usr/share/webapps/${pkgname}"
