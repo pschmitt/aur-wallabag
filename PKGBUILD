@@ -1,7 +1,7 @@
 # Maintainer: Philipp Schmitt (philipp<at>schmitt<dot>co)
 
 pkgname=wallabag
-pkgver=2.1.4
+pkgver=2.1.5
 pkgrel=1
 pkgdesc='Self hostable application for saving web pages'
 arch=('any')
@@ -21,9 +21,9 @@ optdepends=(
 )
 install="$pkgname.install"
 options=(!strip)
-source=("https://framabag.org/wallabag-release-${pkgver}.tar.gz")
+source=("https://github.com/wallabag/wallabag/archive/${pkgver}.tar.gz")
 #source=("${pkgname}-release-${pkgver}.tar.gz::http://wllbg.org/latest-v2-package") # you may try this URL, if the above one is not available
-sha256sums=('eb64205a4d7c161527edd08bed22e8dd9799fe8a4130c5964c18cba3a94c9768')
+sha256sums=('0a6c954aee28d3b5246b0a829f43a643fdad3a3efc9d21683199a0626ed9ffe3')
 backup=("etc/webapps/${pkgname}/parameters.yml"
         "usr/share/webapps/${pkgname}/parameters.yml"
         "var/lib/${pkgname}/data/db/wallabag.sqlite"
@@ -32,12 +32,12 @@ backup=("etc/webapps/${pkgname}/parameters.yml"
 package() {
     cd "${pkgdir}"
     mkdir -p usr/share/webapps
-    mv "${srcdir}/release-${pkgver}" usr/share/webapps/${pkgname}
+    mv "${srcdir}/${pkgname}-${pkgver}" usr/share/webapps/${pkgname}
 
     WALLABAG_CONF_DIR="${pkgdir}/usr/share/webapps/${pkgname}/app/config"
 
     install -d "${pkgdir}/etc/webapps/${pkgname}/"
-    mv "${WALLABAG_CONF_DIR}"/parameters.yml ${pkgdir}/etc/webapps/${pkgname}/
+    mv "${WALLABAG_CONF_DIR}"/parameters.yml.dist ${pkgdir}/etc/webapps/${pkgname}/parameters.yml
     chown -R http:http ${pkgdir}/etc/webapps/${pkgname}
     ln -s /etc/webapps/${pkgname}/parameters.yml "${WALLABAG_CONF_DIR}"/
 
@@ -45,7 +45,5 @@ package() {
     install -d "$_VAR_DIR"
     mv "${pkgdir}/usr/share/webapps/${pkgname}/"{data,var} "$_VAR_DIR"
     ln -s "/var/lib/${pkgname}/"{data,var} "${pkgdir}/usr/share/webapps/${pkgname}/"
-    chown -R http:http "$_VAR_DIR"
-
-    chown -R http:http "${pkgdir}/usr/share/webapps/${pkgname}"
+    chown -R http:http "$_VAR_DIR" "${pkgdir}/usr/share/webapps/${pkgname}"
 }
