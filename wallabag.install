@@ -25,14 +25,12 @@ pre_upgrade() {
             /usr/share/webapps/wallabag/app/config/parameters.yml \
             -t /etc/webapps/wallabag/
     fi
-    # also move `data` and `var` to /var/lib/wallabag/
+    # move `data` to /var/lib/wallabag/
     if [[ -d /usr/share/webapps/wallabag/data && \
-          ! -h /usr/share/webapps/wallabag/data && \
-           -d /usr/share/webapps/wallabag/var && \
-          ! -h /usr/share/webapps/wallabag/var ]]; then
+          ! -h /usr/share/webapps/wallabag/data ]]; then
         install -d /var/lib/wallabag/
         chown http:http /var/lib/wallabag/
-        mv /usr/share/webapps/wallabag/{data,var} /var/lib/wallabag/
+        mv /usr/share/webapps/wallabag/data /var/lib/wallabag/data
     fi
 }
 
