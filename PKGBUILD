@@ -36,9 +36,9 @@ package() {
     WALLABAG_CONF_DIR="${pkgdir}/usr/share/webapps/${pkgname}/app/config"
 
     install -d "${pkgdir}/etc/webapps/${pkgname}/"
-    mv "${WALLABAG_CONF_DIR}"/parameters.yml ${pkgdir}/etc/webapps/${pkgname}/
-    chown -R http:http ${pkgdir}/etc/webapps/${pkgname}
-    ln -s /etc/webapps/${pkgname}/parameters.yml "${WALLABAG_CONF_DIR}"/
+    mv "${WALLABAG_CONF_DIR}"/parameters.yml "${pkgdir}/etc/webapps/${pkgname}/"
+    chown -R http:http "${pkgdir}/etc/webapps/${pkgname}"
+    ln -s "/etc/webapps/${pkgname}/parameters.yml" "${WALLABAG_CONF_DIR}"/
 
     _VAR_DIR="${pkgdir}/var/lib/${pkgname}/"
     install -d "$_VAR_DIR"
